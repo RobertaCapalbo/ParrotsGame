@@ -1,0 +1,1 @@
+prompt("Com quantas cartas você gostaria de jogar? São permitidos apenas números pares de 2 a 14")
