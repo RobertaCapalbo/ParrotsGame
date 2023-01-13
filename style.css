@@ -15,9 +15,10 @@ justify-content:center;}
     font-size: 56px;
     line-height: 66px;
     letter-spacing: -0.004em;
-    color: #75B79E;}
+    color: #75B79E;
+    text-align: center;}
 
-.cartas{
+.cartinhas{
 width:100%;
 display:flex;
 flex-direction: row;
@@ -54,10 +55,17 @@ flex-wrap: wrap;}
     transform: rotateY(180deg);
   }
 
-  .card:hover .back-face {
+  .desvirar {
     transform: rotateY(0deg);
   }
 
-  .card:hover .front-face {
+  .virar {
     transform: rotateY(-180deg);
   }
+
+  .card img{width:100px;
+height:100px;}
+
+
+
+
