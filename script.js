@@ -1,7 +1,8 @@
 let segundoClique = false;
 let cartaAnterior;
 let contator;
-
+let terceiraCarta = true;
+let travarJogada = false;
 
 //função para descobrir com quantas cartas o jogador quer jogar - válido apenas número pares entre 4 e 14
 let num = Number(prompt("Com quantas cartas você gostaria de jogar? São permitidos apenas números pares de 4 a 14"));
@@ -50,6 +51,10 @@ function comparador() {
 
 //para virar carta
 function virarCarta(cartaClicada){
+    if(travarJogada === true)
+{
+   return;
+}
     if (cartaClicada.querySelector('.front-face').classList.contains('virar')){
         return;
     }
@@ -58,6 +63,7 @@ function virarCarta(cartaClicada){
     if (segundoClique === true){
     validarJogada(cartaAnterior, cartaClicada);
     segundoClique = false;
+    travarJogada = true;
     } else {
         cartaAnterior = cartaClicada;
         segundoClique = true;
