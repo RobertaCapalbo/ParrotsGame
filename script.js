@@ -4,6 +4,7 @@ let travarJogada = false;
 let jogadas = 0;
 let carta1 ='';
 let carta2 = '';
+let tempo = 0;
 
 //função para descobrir com quantas cartas o jogador quer jogar - válido apenas número pares entre 4 e 14
 let num = Number(prompt("Com quantas cartas você gostaria de jogar? São permitidos apenas números pares de 4 a 14"));
@@ -75,10 +76,7 @@ function virarCarta(cartaClicada){
 //verificando se as cartas são iguais
 function validarJogada (){
     const carta1img = carta1.querySelector('.frente').getAttribute("src");
-    console.log(carta1img)
     const carta2img = carta2.querySelector('.frente').getAttribute("src");
-    console.log(carta2img);
-    console.log(carta1img === carta2img)
 if (carta1img !== carta2img){
     setTimeout(function(){
         carta1.querySelector('.back-face').classList.remove('desvirar');
@@ -89,19 +87,47 @@ if (carta1img !== carta2img){
         carta2 = '';
         travarJogada = false; 
     },1000)
-} else {travarJogada = false;
+} else {
 carta1 = '';
 carta2 = ''
-encerrarJogo()}
+encerrarJogo()
+travarJogada = false;}
 }
 
 //para encerrar o jogo
 function encerrarJogo (){
     const cartasViradas = document.querySelectorAll('.back-face.desvirar').length;
     if (cartasViradas === num) {
+        clearInterval(relogio);
         setTimeout(function(){
-            alert(`Fim do jogo. Você ganhou em ${contador} jogadas`);
+            alert(`Fim do jogo. Você ganhou em ${contador} jogadas e em ${tempo} segundos`);
+            reiniciarJogo();
         },500)
     }
 }
-        
+ 
+//para reiniciar jogo
+function reiniciarJogo(){
+    let perguntaReiniciar = prompt("Você gostaria de reiniciar o jogo?");
+    if (perguntaReiniciar === "sim"){
+        location.reload();
+    }
+    if (perguntaReiniciar === "não") {
+        return;
+    }
+    if (perguntaReiniciar !== "não" && perguntaReiniciar !== "sim"){
+        reiniciarJogo()
+    }
+}
+
+
+// para criar cronômetro
+const relogio = setInterval(function(){
+    tempo++
+    relogioTela()
+},1000)
+
+function relogioTela(){
+    const timerTela = document.querySelector('.timer');
+    timerTela.innerHTML = tempo;
+}
