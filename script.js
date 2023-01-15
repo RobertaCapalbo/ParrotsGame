@@ -1,8 +1,9 @@
-let segundoClique = false;
 let cartaAnterior;
-let contator;
-let terceiraCarta = true;
+let contador = 0;
 let travarJogada = false;
+let jogadas = 0;
+let carta1 ='';
+let carta2 = '';
 
 //função para descobrir com quantas cartas o jogador quer jogar - válido apenas número pares entre 4 e 14
 let num = Number(prompt("Com quantas cartas você gostaria de jogar? São permitidos apenas números pares de 4 a 14"));
@@ -51,28 +52,56 @@ function comparador() {
 
 //para virar carta
 function virarCarta(cartaClicada){
-    if(travarJogada === true)
-{
-   return;
-}
-    if (cartaClicada.querySelector('.front-face').classList.contains('virar')){
+
+    if(travarJogada === true){
         return;
     }
-    cartaClicada.querySelector('.back-face').classList.add('desvirar');
-    cartaClicada.querySelector('.front-face').classList.add('virar');
-    if (segundoClique === true){
-    validarJogada(cartaAnterior, cartaClicada);
-    segundoClique = false;
-    travarJogada = true;
-    } else {
-        cartaAnterior = cartaClicada;
-        segundoClique = true;
+    if (!cartaClicada.querySelector('.front-face').classList.contains('virar')&& carta1===''){
+        cartaClicada.querySelector('.back-face').classList.add('desvirar');
+        cartaClicada.querySelector('.front-face').classList.add('virar');
+        carta1 = cartaClicada;
+        contador++;
+    } else if (carta1!==''){
+        cartaClicada.querySelector('.back-face').classList.add('desvirar');
+        cartaClicada.querySelector('.front-face').classList.add('virar');
+        travarJogada = true;
+        carta2 = cartaClicada;
+        contador++;
+        validarJogada();
     }
+
 }
 
 //verificando se as cartas são iguais
-function validarJogada (cartaAnterior, cartaAtual){
-  console.log(cartaAnterior);
-  console.log(cartaAtual);
+function validarJogada (){
+    const carta1img = carta1.querySelector('.frente').getAttribute("src");
+    console.log(carta1img)
+    const carta2img = carta2.querySelector('.frente').getAttribute("src");
+    console.log(carta2img);
+    console.log(carta1img === carta2img)
+if (carta1img !== carta2img){
+    setTimeout(function(){
+        carta1.querySelector('.back-face').classList.remove('desvirar');
+        carta1.querySelector('.front-face').classList.remove('virar');
+        carta2.querySelector('.back-face').classList.remove('desvirar');
+        carta2.querySelector('.front-face').classList.remove('virar');
+        carta1 = '';
+        carta2 = '';
+        travarJogada = false; 
+    },1000)
+} else {travarJogada = false;
+carta1 = '';
+carta2 = ''
+encerrarJogo()}
+}
+
+//para encerrar o jogo
+function encerrarJogo (){
+    const cartasViradas = document.querySelectorAll('.back-face.desvirar').length;
+    if (cartasViradas === num) {
+        setTimeout(function(){
+            alert(`Fim do jogo. Você ganhou em ${contador} jogadas`);
+        },500)
+    }
 }
         
